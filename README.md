@@ -1,5 +1,11 @@
 # docker-easyconnect
 
+## example usage for nwafu students:
+
+```
+docker run --device /dev/net/tun --sysctl net.ipv4.conf.all.route_localnet=1 --sysctl net.ipv4.ip_forward=1 --name easyconn --cap-add NET_ADMIN -d -e IPTABLES_LEGACY=1 -p 14084:14084 -e EC_VER=7.6.3 --restart=unless-stopped -e _EC_CLI=1 -e CLI_OPTS="-d vpn.nwafu.edu.cn -u 你的学号 -p 统一认证密码" kenvix/docker-easyconnect:cli bash -c '( nohup socat TCP-LISTEN:14084,fork TCP:示例端口转发远程服务器IP:14084 & ) ; start.sh'
+```
+
 让深信服开发的**非自由**的 EasyConnect 代理软件运行在 docker 中，并开放 Socks5 供宿主机连接以使用代理。（此外亦可通过 [ip forward 的方式](doc/usage.md#ip-forward) 来使用）
 
 基于 EasyConnect 官方“Linux”版的 deb 包以及 [@shmille](https://github.com/shmilee) 提供的[命令行版客户端 deb 包](https://github.com/shmilee/scripts/releases/download/v0.0.1/easyconn_7.6.8.2-ubuntu_amd64.deb)。
